@@ -7,4 +7,4 @@ def find_coord_with_postcode(postcode):
     return parse_coordinates(location_details)
 
 def parse_coordinates(location_details):
-    return [location_details["result"]["latitude"], location_details["result"]["longitude"]]
+    return [location_details['result']['latitude'], location_details['result']['longitude']]
