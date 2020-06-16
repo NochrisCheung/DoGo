@@ -28,7 +28,7 @@ def get_travel_distance(route_details):
     return round(route_details['routes'][0]['summary']['lengthInMeters']* 0.000621371,2)
 
 
-start_coord_from_postcode = postcode_api.find_coord_with_postcode('WC2H7JS')
-end_coord_from_postcode = postcode_api.find_coord_with_postcode('e149bf')
-print(get_travel_distance(get_route_details(start_coord_from_postcode, end_coord_from_postcode)))
-# print(get_travel_time(
+# start_coord_from_postcode = postcode_api.find_coord_with_postcode('w23uy')
+# end_coord_from_postcode = postcode_api.find_coord_with_postcode('se16fp')
+# print(get_travel_distance(get_route_details(start_coord_from_postcode, end_coord_from_postcode)))
+# # print(get_travel_time(

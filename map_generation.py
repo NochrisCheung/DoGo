@@ -84,7 +84,7 @@ fig.add_trace(go.Scattermapbox(
     lat = [start_coord_from_postcode[0]],
     marker = dict(size = 10,
         color = 'green',
-        symbol = 'square',
+        # symbol = 'square',
     )
 ))
 
@@ -96,7 +96,7 @@ fig.add_trace(go.Scattermapbox(
     lat = [end_coord_from_postcode[0]],
     marker = dict(size = 10,
         color = 'red',
-        symbol = 'square',
+        # symbol = 'square',
     )
 ))
 
