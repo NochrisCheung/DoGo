@@ -5,8 +5,6 @@ import json
 import postcode_api
 import coordinate_mapping
 
-start_coord_from_postcode = postcode_api.find_coord_with_postcode('se16fp')
-end_coord_from_postcode = postcode_api.find_coord_with_postcode('w23uy')
 api_key = 'aQIOZxsbTndh01CWzf8fiAXBFaF03fA6'
 
 def get_route_details(start_coord_from_postcode, end_coord_from_postcode):
@@ -22,3 +20,15 @@ def get_route_details(start_coord_from_postcode, end_coord_from_postcode):
 
 def get_legs(route_details):
     return route_details['routes'][0]['legs'][0]['points']
+
+def get_travel_time(route_details):
+    return round(route_details['routes'][0]['summary']['travelTimeInSeconds']/60)
+
+def get_travel_distance(route_details):
+    return round(route_details['routes'][0]['summary']['lengthInMeters']* 0.000621371,2)
+
+
+start_coord_from_postcode = postcode_api.find_coord_with_postcode('WC2H7JS')
+end_coord_from_postcode = postcode_api.find_coord_with_postcode('e149bf')
+print(get_travel_distance(get_route_details(start_coord_from_postcode, end_coord_from_postcode)))
+# print(get_travel_time(

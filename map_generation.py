@@ -1,9 +1,6 @@
 # osmnx documentation: https://osmnx.readthedocs.io/en/stable/osmnx.html#osmnx.core.graph_from_bbox
-import matplotlib.pyplot as plt
 import osmnx as ox
 import postcode_api
-import networkx as nx
-from sklearn.neighbors import KDTree
 import numpy as np
 import plotly.graph_objects as go
 import tomtom_api
@@ -60,11 +57,13 @@ def get_lat_and_log(route_points):
     return [route_points_latitude, route_points_longitude]
 
 
-start_coord_from_postcode = postcode_api.find_coord_with_postcode('se16fp')
-end_coord_from_postcode = postcode_api.find_coord_with_postcode('w23uy')
+start_coord_from_postcode = postcode_api.find_coord_with_postcode('WC2H7JS')
+end_coord_from_postcode = postcode_api.find_coord_with_postcode('e149bf')
 
-legs = tomtom_api.get_legs(tomtom_api.get_route_details(start_coord_from_postcode,end_coord_from_postcode))
+route_details = tomtom_api.get_route_details(start_coord_from_postcode,end_coord_from_postcode)
+legs = tomtom_api.get_legs(route_details)
 [route_latitude, route_longitude] = get_lat_and_log(legs)
+
 
 # adding the lines joining the nodes
 fig = go.Figure(go.Scattermapbox(
@@ -72,24 +71,34 @@ fig = go.Figure(go.Scattermapbox(
     mode = 'lines',
     lon = route_longitude,
     lat = route_latitude,
-    marker = {'size': 10},
-    line = dict(width = 2, color = 'orange')))
-
+    line = dict(width = 3,
+        color = 'orange'
+        )
+    )
+)
 # adding source marker
 fig.add_trace(go.Scattermapbox(
     name = 'Source',
     mode = 'markers',
     lon = [start_coord_from_postcode[1]],
     lat = [start_coord_from_postcode[0]],
-    marker = {'size': 10, 'color':'red'}))
+    marker = dict(size = 10,
+        color = 'green',
+        symbol = 'square',
+    )
+))
 
 # adding destination marker
 fig.add_trace(go.Scattermapbox(
-        name = 'Destination',
-        mode = 'markers',
-        lon = [end_coord_from_postcode[1]],
-        lat = [end_coord_from_postcode[0]],
-        marker = {'size': 10, 'color':'green'}))
+    name = 'Destination',
+    mode = 'markers',
+    lon = [end_coord_from_postcode[1]],
+    lat = [end_coord_from_postcode[0]],
+    marker = dict(size = 10,
+        color = 'red',
+        symbol = 'square',
+    )
+))
 
 # getting center for plots:
 lat_center = np.mean(route_latitude)
@@ -99,9 +108,9 @@ long_center = np.mean(route_longitude)
 fig.update_layout(mapbox_style="carto-positron",
     mapbox_center_lat = 30, mapbox_center_lon=-80)
 fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0},
-                  mapbox = {
-                      'center': {'lat': lat_center,
-                      'lon': long_center},
-                      'zoom': 13})
+    mapbox = {
+      'center': {'lat': lat_center,
+      'lon': long_center},
+      'zoom': 13})
 
 fig.show()
